@@ -6,7 +6,7 @@ provider "hcp" {
 resource "hcp_hvn" "yulei-hvn" {
   hvn_id         = "yulei-hvn"
   cloud_provider = "aws"
-  region         = "ap-southeast-2"
+  region         = "us-east-1"
   cidr_block     = "172.25.16.0/20"
 }
 
