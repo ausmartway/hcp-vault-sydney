@@ -13,6 +13,7 @@ resource "hcp_hvn" "yulei-hvn" {
 // Create a Vault cluster in the same region and cloud provider as the HVN
 resource "hcp_vault_cluster" "first-cluster" {
   cluster_id = "first-cluster"
+  public_endpoint = true
   hvn_id     = hcp_hvn.yulei-hvn.hvn_id
 }
 
