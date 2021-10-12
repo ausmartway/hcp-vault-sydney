@@ -18,4 +18,7 @@ resource "hcp_vault_cluster" "first-cluster" {
 
 resource "hcp_vault_cluster_admin_token" "admin" {
   cluster_id = "first-cluster"
+  depends_on = [
+      hcp_vault_cluster.first-cluster,
+  ]
 }
