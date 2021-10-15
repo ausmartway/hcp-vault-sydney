@@ -4,5 +4,5 @@ output "hcp-vault-public_endpoint" {
 }
 
 output "hcp-vault-admin-token" {
-    value = hcp_vault_cluster_admin_token.token
+    value = hcp_vault_cluster_admin_token.admin.token
 }
