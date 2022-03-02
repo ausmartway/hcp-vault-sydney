@@ -87,15 +87,15 @@ resource "aws_instance" "testserver" {
   }
 }
 
-data "aws_route53_zone" "yulei" {
-  name         = "yulei.aws.hashidemos.io"
-  private_zone = false
-}
+# data "aws_route53_zone" "yulei" {
+#   name         = "yulei.aws.hashidemos.io"
+#   private_zone = false
+# }
 
-resource "aws_route53_record" "testserver" {
-  zone_id = data.aws_route53_zone.yulei.id
-  name    = "testserver.${data.aws_route53_zone.yulei.name}"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.testserver.public_ip]
-}
+# resource "aws_route53_record" "testserver" {
+#   zone_id = data.aws_route53_zone.yulei.id
+#   name    = "testserver.${data.aws_route53_zone.yulei.name}"
+#   type    = "A"
+#   ttl     = "300"
+#   records = [aws_instance.testserver.public_ip]
+# }
