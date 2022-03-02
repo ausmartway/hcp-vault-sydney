@@ -70,14 +70,15 @@ resource "aws_network_interface" "network" {
 
 resource "aws_instance" "testserver" {
   ami                  = data.aws_ami.ubuntu.id
+  associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.test_profile1.name
   instance_type        = "t3.micro"
   key_name             = "yulei"
-
-  network_interface {
-    network_interface_id = aws_network_interface.network.id
-    device_index         = 0
-  }
+  private_ip ="10.220.1.15"
+#   network_interface {
+#     network_interface_id = aws_network_interface.network.id
+#     device_index         = 0
+#   }
 
   tags = {
     Name   = "testserver"
