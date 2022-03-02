@@ -107,6 +107,7 @@ resource "aws_instance" "testserver" {
   instance_type               = "t3.micro"
   key_name                    = "yulei"
   private_ip                  = "10.10.10.20"
+  vpc_security_group_ids = [aws_security_group.allow_ssh]
   subnet_id                   = aws_subnet.subnet.id
   #   network_interface {
   #     network_interface_id = aws_network_interface.network.id
