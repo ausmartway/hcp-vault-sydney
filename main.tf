@@ -14,7 +14,7 @@ resource "hcp_hvn" "vault-demo-hvn" {
 resource "hcp_vault_cluster" "vault-cluster" {
   cluster_id = "vault-cluster"
   public_endpoint = true
-  hvn_id     = hcp_hvn.vault-demo.hvn_id
+  hvn_id     = hcp_hvn.vault-demo-hvn.hvn_id
 }
 
 resource "hcp_vault_cluster_admin_token" "admin" {
@@ -49,7 +49,7 @@ resource "hcp_aws_network_peering" "example" {
 
 // Create an HVN route that targets your HCP network peering and matches your AWS VPC's CIDR block
 resource "hcp_hvn_route" "example" {
-  hvn_link         = hcp_hvn.vault-demo.self_link
+  hvn_link         = hcp_hvn.vault-demo-hvn.self_link
   hvn_route_id     = var.route_id
   destination_cidr = aws_vpc.hvn-peer.cidr_block
   target_link      = hcp_aws_network_peering.example.self_link
