@@ -2,6 +2,10 @@
 provider "hcp" {
 }
 
+provider "aws" {
+  region="ap-southeast-2"
+}
+
 // Create an HVN
 resource "hcp_hvn" "vault-demo-hvn" {
   hvn_id         = "vault-demo-hvn"
