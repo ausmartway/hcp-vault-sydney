@@ -43,6 +43,13 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.hvn-peer.id
+
+    tags = {
+    Name   = "hcp-vault-demo-gw"
+    Owner  = "yulei@hashicorp.com"
+    TTL    = "48"
+    Region = "APJ"
+  }
 }
 
 resource "aws_subnet" "subnet" {
@@ -84,7 +91,7 @@ resource "aws_security_group" "allow_ssh" {
   }
 
   tags = {
-    Name = "allow_tls"
+    Name = "allow_ssh"
   }
 }
 # resource "aws_network_interface" "network" {
@@ -102,7 +109,6 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_instance" "testserver" {
   ami                         = data.aws_ami.ubuntu.id
-  associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.test_profile1.name
   instance_type               = "t3.micro"
   key_name                    = "yulei"
@@ -122,23 +128,22 @@ resource "aws_instance" "testserver" {
   }
 }
 
-resource "aws_eip" "eip" {
-  vpc = true
+# resource "aws_eip" "eip" {
+#   vpc = true
+#   instance                  = aws_instance.testserver.id
+#   associate_with_private_ip = "10.10.10.20"
+#   depends_on                = [aws_internet_gateway.gw]
+# }
 
-  instance                  = aws_instance.testserver.id
-  associate_with_private_ip = "10.10.10.20"
-  depends_on                = [aws_internet_gateway.gw]
-}
+# data "aws_route53_zone" "yulei" {
+#   name         = "yulei.aws.hashidemos.io"
+#   private_zone = false
+# }
 
-data "aws_route53_zone" "yulei" {
-  name         = "yulei.aws.hashidemos.io"
-  private_zone = false
-}
-
-resource "aws_route53_record" "testserver" {
-  zone_id = data.aws_route53_zone.yulei.id
-  name    = "testserver.${data.aws_route53_zone.yulei.name}"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_eip.eip.public_ip]
-}
+# resource "aws_route53_record" "testserver" {
+#   zone_id = data.aws_route53_zone.yulei.id
+#   name    = "testserver.${data.aws_route53_zone.yulei.name}"
+#   type    = "A"
+#   ttl     = "300"
+#   records = [aws_eip.eip.public_ip]
+# }

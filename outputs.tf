@@ -8,6 +8,6 @@ output "hcp-vault-admin-token" {
   sensitive = true
 }
 
-output "ec2-public-ip" {
-    value = aws_instance.testserver.public_ip
-}
+# output "ec2-public-ip" {
+#     value = aws_eip.eip.public_ip
+# }
