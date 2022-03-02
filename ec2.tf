@@ -70,6 +70,7 @@ resource "aws_network_interface" "network" {
 
 resource "aws_instance" "testserver" {
   ami                  = data.aws_ami.ubuntu.id
+  associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.test_profile1.name
   instance_type        = "t3.micro"
   key_name             = "yulei"
