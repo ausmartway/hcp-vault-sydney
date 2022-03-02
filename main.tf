@@ -7,7 +7,7 @@ resource "hcp_hvn" "vault-demo" {
   hvn_id         = "vault-demo"
   cloud_provider = "aws"
   region         = "ap-southeast-2"
-  cidr_block     = "172.25.16.0/20"
+  cidr_block     = "172.25.64.0/20"
 }
 
 // Create a Vault cluster in the same region and cloud provider as the HVN
