@@ -67,9 +67,16 @@ resource "aws_route_table" "route_table" {
 
   tags = {
     Name = "example"
+    Owner  = "yulei@hashicorp.com"
+    TTL    = "48"
+    Region = "APJ"
   }
 }
 
+resource "aws_route_table_association" "rta" {
+  subnet_id      = aws_subnet.subnet.id
+  route_table_id = aws_route_table.route_table.id
+}
 
 resource "aws_subnet" "subnet" {
   vpc_id            = aws_vpc.hvn-peer.id
