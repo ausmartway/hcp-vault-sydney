@@ -69,7 +69,6 @@ resource "aws_network_interface" "network" {
 
 
 resource "aws_instance" "testserver1" {
-  vpc = aws_vpc.hvn-peer.id
   ami                  = data.aws_ami.ubuntu.id
   iam_instance_profile = aws_iam_instance_profile.test_profile1.name
   instance_type        = "t3.micro"
