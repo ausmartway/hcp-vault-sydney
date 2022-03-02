@@ -1,9 +1,9 @@
 # Define your outputs here
 output "hcp-vault-public_endpoint" {
-    value = hcp_vault_cluster.vault-cluster.vault_public_endpoint_url
+  value = hcp_vault_cluster.vault-cluster.vault_public_endpoint_url
 }
 
 output "hcp-vault-admin-token" {
-    value = hcp_vault_cluster_admin_token.admin.token
-    sensitive = true
+  value     = hcp_vault_cluster_admin_token.admin.token
+  sensitive = true
 }

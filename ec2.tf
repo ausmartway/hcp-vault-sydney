@@ -43,13 +43,13 @@ data "aws_ami" "ubuntu" {
 
 
 resource "aws_subnet" "subnet" {
-    vpc_id            = aws_vpc.hvn-peer.id
-  cidr_block        = "10.220.1.0/24"
+  vpc_id            = aws_vpc.hvn-peer.id
+  cidr_block        = "10.10.10.0/24"
   availability_zone = "ap-southeast-2a"
 
   tags = {
-    Name = "hcp-vault-demo-subnet"
-   Owner  = "yulei@hashicorp.com"
+    Name   = "hcp-vault-demo-subnet"
+    Owner  = "yulei@hashicorp.com"
     TTL    = "48"
     Region = "APJ"
   }
@@ -57,11 +57,11 @@ resource "aws_subnet" "subnet" {
 
 resource "aws_network_interface" "network" {
   subnet_id   = aws_subnet.subnet.id
-  private_ips = ["10.220.1.15"]
+  private_ips = ["10.10.10.15"]
 
   tags = {
-    Name = "primary_network_interface"
-   Owner  = "yulei@hashicorp.com"
+    Name   = "primary_network_interface"
+    Owner  = "yulei@hashicorp.com"
     TTL    = "48"
     Region = "APJ"
   }
@@ -69,16 +69,17 @@ resource "aws_network_interface" "network" {
 
 
 resource "aws_instance" "testserver" {
-  ami                  = data.aws_ami.ubuntu.id
+  ami                         = data.aws_ami.ubuntu.id
   associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.test_profile1.name
-  instance_type        = "t3.micro"
-  key_name             = "yulei"
-  private_ip ="10.220.1.20"
-#   network_interface {
-#     network_interface_id = aws_network_interface.network.id
-#     device_index         = 0
-#   }
+  iam_instance_profile        = aws_iam_instance_profile.test_profile1.name
+  instance_type               = "t3.micro"
+  key_name                    = "yulei"
+  private_ip                  = "10.10.10.20"
+  subnet_id                   = aws_subnet.subnet.id
+  #   network_interface {
+  #     network_interface_id = aws_network_interface.network.id
+  #     device_index         = 0
+  #   }
 
   tags = {
     Name   = "testserver"

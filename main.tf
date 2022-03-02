@@ -3,7 +3,7 @@ provider "hcp" {
 }
 
 provider "aws" {
-  region="ap-southeast-2"
+  region = "ap-southeast-2"
 }
 
 // Create an HVN
@@ -16,15 +16,15 @@ resource "hcp_hvn" "vault-demo-hvn" {
 
 // Create a Vault cluster in the same region and cloud provider as the HVN
 resource "hcp_vault_cluster" "vault-cluster" {
-  cluster_id = "vault-cluster"
+  cluster_id      = "vault-cluster"
   public_endpoint = true
-  hvn_id     = hcp_hvn.vault-demo-hvn.hvn_id
+  hvn_id          = hcp_hvn.vault-demo-hvn.hvn_id
 }
 
 resource "hcp_vault_cluster_admin_token" "admin" {
   cluster_id = "vault-cluster"
   depends_on = [
-      hcp_vault_cluster.vault-cluster,
+    hcp_vault_cluster.vault-cluster,
   ]
 }
 
@@ -35,8 +35,8 @@ resource "hcp_vault_cluster_admin_token" "admin" {
 // of the HVN.
 resource "aws_vpc" "hvn-peer" {
   cidr_block = "10.220.0.0/16"
-    tags = {
-    Name = "hcp-vault-demo-vpc"
+  tags = {
+    Name   = "hcp-vault-demo-vpc"
     Owner  = "yulei@hashicorp.com"
     TTL    = "48"
     Region = "APJ"
