@@ -41,11 +41,17 @@ data "aws_ami" "ubuntu" {
   owners = ["711129375688"] # HashiCorp account
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.hvn-peer.id
+}
 
 resource "aws_subnet" "subnet" {
   vpc_id            = aws_vpc.hvn-peer.id
   cidr_block        = "10.10.10.0/24"
   availability_zone = "ap-southeast-2a"
+  map_public_ip_on_launch = true
+
+  depends_on = [aws_internet_gateway.gw]
 
   tags = {
     Name   = "hcp-vault-demo-subnet"
@@ -55,17 +61,17 @@ resource "aws_subnet" "subnet" {
   }
 }
 
-resource "aws_network_interface" "network" {
-  subnet_id   = aws_subnet.subnet.id
-  private_ips = ["10.10.10.15"]
+# resource "aws_network_interface" "network" {
+#   subnet_id   = aws_subnet.subnet.id
+#   private_ips = ["10.10.10.15"]
 
-  tags = {
-    Name   = "primary_network_interface"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
-  }
-}
+#   tags = {
+#     Name   = "primary_network_interface"
+#     Owner  = "yulei@hashicorp.com"
+#     TTL    = "48"
+#     Region = "APJ"
+#   }
+# }
 
 
 resource "aws_instance" "testserver" {
@@ -89,15 +95,23 @@ resource "aws_instance" "testserver" {
   }
 }
 
-# data "aws_route53_zone" "yulei" {
-#   name         = "yulei.aws.hashidemos.io"
-#   private_zone = false
-# }
+resource "aws_eip" "eip" {
+  vpc = true
 
-# resource "aws_route53_record" "testserver" {
-#   zone_id = data.aws_route53_zone.yulei.id
-#   name    = "testserver.${data.aws_route53_zone.yulei.name}"
-#   type    = "A"
-#   ttl     = "300"
-#   records = [aws_instance.testserver.public_ip]
-# }
+  instance                  = aws_instance.testserver.id
+  associate_with_private_ip = "10.10.10.20"
+  depends_on                = [aws_internet_gateway.gw]
+}
+
+data "aws_route53_zone" "yulei" {
+  name         = "yulei.aws.hashidemos.io"
+  private_zone = false
+}
+
+resource "aws_route53_record" "testserver" {
+  zone_id = data.aws_route53_zone.yulei.id
+  name    = "testserver.${data.aws_route53_zone.yulei.name}"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.eip.public_ip]
+}
