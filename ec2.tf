@@ -68,7 +68,7 @@ resource "aws_network_interface" "network" {
 }
 
 
-resource "aws_instance" "testserver1" {
+resource "aws_instance" "testserver" {
   ami                  = data.aws_ami.ubuntu.id
   iam_instance_profile = aws_iam_instance_profile.test_profile1.name
   instance_type        = "t3.micro"
@@ -80,7 +80,7 @@ resource "aws_instance" "testserver1" {
   }
 
   tags = {
-    Name   = "testserver1"
+    Name   = "testserver"
     Owner  = "yulei@hashicorp.com"
     TTL    = "48"
     Region = "APJ"
@@ -92,10 +92,10 @@ data "aws_route53_zone" "yulei" {
   private_zone = false
 }
 
-resource "aws_route53_record" "testserver1" {
+resource "aws_route53_record" "testserver" {
   zone_id = data.aws_route53_zone.yulei.id
-  name    = "testserver1.${data.aws_route53_zone.yulei.name}"
+  name    = "testserver.${data.aws_route53_zone.yulei.name}"
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.testserver1.public_ip]
+  records = [aws_instance.testserver.public_ip]
 }
