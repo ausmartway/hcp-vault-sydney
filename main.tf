@@ -50,7 +50,7 @@ resource "hcp_aws_network_peering" "example" {
 // Create an HVN route that targets your HCP network peering and matches your AWS VPC's CIDR block
 resource "hcp_hvn_route" "example" {
   hvn_link         = hcp_hvn.vault-demo-hvn.self_link
-  hvn_route_id     = var.route_id
+  hvn_route_id     = "demo-route"
   destination_cidr = aws_vpc.hvn-peer.cidr_block
   target_link      = hcp_aws_network_peering.example.self_link
 }
