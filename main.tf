@@ -35,7 +35,14 @@ resource "hcp_vault_cluster_admin_token" "admin" {
 // of the HVN.
 resource "aws_vpc" "hvn-peer" {
   cidr_block = "10.220.0.0/16"
+    tags = {
+    Name = "hcp-vault-demo-vpc"
+   Owner  = "yulei@hashicorp.com"
+    TTL    = "48"
+    Region = "APJ"
+  }
 }
+
 
 
 //get the arn of hvn-peer
