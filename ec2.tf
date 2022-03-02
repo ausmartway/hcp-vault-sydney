@@ -52,6 +52,25 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
+resource "aws_route_table" "route_table" {
+  vpc_id = aws_vpc.hvn-peer.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  route {
+    cidr_block        = "172.25.48.0/20"
+    vpc_peering_connection_id = hcp_aws_network_peering.example.provider_peering_id
+  }
+
+  tags = {
+    Name = "example"
+  }
+}
+
+
 resource "aws_subnet" "subnet" {
   vpc_id            = aws_vpc.hvn-peer.id
   cidr_block        = "10.10.10.0/24"
