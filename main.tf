@@ -34,7 +34,7 @@ resource "hcp_vault_cluster_admin_token" "admin" {
 // Make sure the CIDR block of the peer VPC does not overlap with the CIDR
 // of the HVN.
 resource "aws_vpc" "hvn-peer" {
-  cidr_block = "10.220.0.0/16"
+  cidr_block = "10.10.10.0/24"
   tags = {
     Name   = "hcp-vault-demo-vpc"
     Owner  = "yulei@hashicorp.com"
