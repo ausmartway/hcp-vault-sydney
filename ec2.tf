@@ -74,7 +74,7 @@ resource "aws_instance" "testserver" {
   iam_instance_profile = aws_iam_instance_profile.test_profile1.name
   instance_type        = "t3.micro"
   key_name             = "yulei"
-  private_ip ="10.220.1.20/24"
+  private_ip ="10.220.1.20"
   subnet_id = aws_subnet.subnet.id
 #   network_interface {
 #     network_interface_id = aws_network_interface.network.id
