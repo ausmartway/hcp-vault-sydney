@@ -1,16 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = "ap-southeast-2"
-}
-
 resource "aws_iam_instance_profile" "test_profile1" {
   name = "test_profile1"
   role = aws_iam_role.role1.name
