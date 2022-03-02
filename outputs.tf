@@ -7,3 +7,7 @@ output "hcp-vault-admin-token" {
   value     = hcp_vault_cluster_admin_token.admin.token
   sensitive = true
 }
+
+output "ec2-public-ip" {
+    value = aws_instance.testserver.public_ip
+}
