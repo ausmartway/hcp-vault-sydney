@@ -124,6 +124,5 @@ resource "aws_instance" "testserver" {
   subnet_id              = aws_subnet.subnet.id
   tags = {
     Name = "testserver"
-
   }
 }
