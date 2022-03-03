@@ -44,11 +44,9 @@ data "aws_ami" "ubuntu" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.hvn-peer.id
 
-    tags = {
-    Name   = "hcp-vault-demo-gw"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
+  tags = {
+    Name = "hcp-vault-demo-gw"
+
   }
 }
 
@@ -61,15 +59,12 @@ resource "aws_route_table" "route_table" {
   }
 
   route {
-    cidr_block        = "172.25.48.0/20"
+    cidr_block                = "172.25.48.0/20"
     vpc_peering_connection_id = hcp_aws_network_peering.example.provider_peering_id
   }
 
   tags = {
-    Name = "example"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
+    Name = "route-to-hcp"
   }
 }
 
@@ -79,18 +74,16 @@ resource "aws_route_table_association" "rta" {
 }
 
 resource "aws_subnet" "subnet" {
-  vpc_id            = aws_vpc.hvn-peer.id
-  cidr_block        = "10.10.10.0/24"
-  availability_zone = "ap-southeast-2a"
+  vpc_id                  = aws_vpc.hvn-peer.id
+  cidr_block              = "10.10.10.0/24"
+  availability_zone       = "ap-southeast-2a"
   map_public_ip_on_launch = true
 
   depends_on = [aws_internet_gateway.gw]
 
   tags = {
-    Name   = "hcp-vault-demo-subnet"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
+    Name = "hcp-vault-demo-subnet"
+
   }
 }
 
@@ -120,56 +113,17 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
-# resource "aws_network_interface" "network" {
-#   subnet_id   = aws_subnet.subnet.id
-#   private_ips = ["10.10.10.15"]
-
-#   tags = {
-#     Name   = "primary_network_interface"
-#     Owner  = "yulei@hashicorp.com"
-#     TTL    = "48"
-#     Region = "APJ"
-#   }
-# }
-
 
 resource "aws_instance" "testserver" {
-  ami                         = data.aws_ami.ubuntu.id
-  iam_instance_profile        = aws_iam_instance_profile.test_profile1.name
-  instance_type               = "t3.micro"
-  key_name                    = "yulei"
-  private_ip                  = "10.10.10.20"
+  ami                    = data.aws_ami.ubuntu.id
+  iam_instance_profile   = aws_iam_instance_profile.test_profile1.name
+  instance_type          = "t3.micro"
+  key_name               = "yulei"
+  private_ip             = "10.10.10.20"
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id                   = aws_subnet.subnet.id
-  #   network_interface {
-  #     network_interface_id = aws_network_interface.network.id
-  #     device_index         = 0
-  #   }
-
+  subnet_id              = aws_subnet.subnet.id
   tags = {
-    Name   = "testserver"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
+    Name = "testserver"
+
   }
 }
-
-# resource "aws_eip" "eip" {
-#   vpc = true
-#   instance                  = aws_instance.testserver.id
-#   associate_with_private_ip = "10.10.10.20"
-#   depends_on                = [aws_internet_gateway.gw]
-# }
-
-# data "aws_route53_zone" "yulei" {
-#   name         = "yulei.aws.hashidemos.io"
-#   private_zone = false
-# }
-
-# resource "aws_route53_record" "testserver" {
-#   zone_id = data.aws_route53_zone.yulei.id
-#   name    = "testserver.${data.aws_route53_zone.yulei.name}"
-#   type    = "A"
-#   ttl     = "300"
-#   records = [aws_eip.eip.public_ip]
-# }

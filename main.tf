@@ -4,6 +4,12 @@ provider "hcp" {
 
 provider "aws" {
   region = "ap-southeast-2"
+  default_tags = {
+    Name   = "hcp-vault-demo-vpc"
+    Owner  = "yulei@hashicorp.com"
+    TTL    = "48"
+    Region = "APJ"
+  }
 }
 
 // Create an HVN
@@ -35,12 +41,6 @@ resource "hcp_vault_cluster_admin_token" "admin" {
 // of the HVN.
 resource "aws_vpc" "hvn-peer" {
   cidr_block = "10.10.10.0/24"
-  tags = {
-    Name   = "hcp-vault-demo-vpc"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
-  }
 }
 
 
