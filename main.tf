@@ -4,11 +4,13 @@ provider "hcp" {
 
 provider "aws" {
   region = "ap-southeast-2"
-  default_tags = {
-    Name   = "hcp-vault-demo-vpc"
-    Owner  = "yulei@hashicorp.com"
-    TTL    = "48"
-    Region = "APJ"
+  default_tags {
+    tags = {
+      Name   = "hcp-vault-demo-vpc"
+      Owner  = "yulei@hashicorp.com"
+      TTL    = "48"
+      Region = "APJ"
+    }
   }
 }
 
