@@ -123,6 +123,7 @@ resource "aws_instance" "testserver" {
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   subnet_id              = aws_subnet.subnet.id
   tags = {
-    Name = "testserver"
+    Name = "testserver-hcp-vault-sydney"
+    AUTO_SHUTDOWN = "TRUE"
   }
 }
