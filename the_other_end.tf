@@ -114,16 +114,16 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
-resource "aws_instance" "testserver" {
-  ami                    = data.aws_ami.ubuntu.id
-  iam_instance_profile   = aws_iam_instance_profile.test_profile1.name
-  instance_type          = "t3.micro"
-  key_name               = "yulei"
-  private_ip             = "10.10.10.20"
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id              = aws_subnet.subnet.id
-  tags = {
-    Name = "testserver-hcp-vault-sydney"
-    AUTO_SHUTDOWN = "TRUE"
-  }
-}
+# resource "aws_instance" "testserver" {
+#   ami                    = data.aws_ami.ubuntu.id
+#   iam_instance_profile   = aws_iam_instance_profile.test_profile1.name
+#   instance_type          = "t3.micro"
+#   key_name               = "yulei"
+#   private_ip             = "10.10.10.20"
+#   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+#   subnet_id              = aws_subnet.subnet.id
+#   tags = {
+#     Name = "testserver-hcp-vault-sydney"
+#     AUTO_SHUTDOWN = "TRUE"
+#   }
+# }
