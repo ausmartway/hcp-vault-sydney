@@ -25,6 +25,7 @@ resource "hcp_hvn" "vault-demo-hvn" {
 // Create a Vault cluster in the same region and cloud provider as the HVN
 resource "hcp_vault_cluster" "vault-cluster" {
   cluster_id      = "vault-cluster"
+  tier = "dev"
   public_endpoint = true
   hvn_id          = hcp_hvn.vault-demo-hvn.hvn_id
 }
