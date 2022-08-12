@@ -2,7 +2,7 @@
 terraform {
   required_version = ">= 1.0"
   required_providers {
-    hcp = ">= 0.17"
+    hcp = ">= 0.40"
   }
 
 }
