@@ -30,7 +30,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "tag:application"
-    values = ["vault-1.12.0-oss"]
+    values = ["vault-1.13.2-cli"]
   }
 
   filter {
@@ -114,16 +114,21 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
-# resource "aws_instance" "testserver" {
-#   ami                    = data.aws_ami.ubuntu.id
-#   iam_instance_profile   = aws_iam_instance_profile.test_profile1.name
-#   instance_type          = "t3.micro"
-#   key_name               = "yulei"
-#   private_ip             = "10.10.10.20"
-#   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-#   subnet_id              = aws_subnet.subnet.id
-#   tags = {
-#     Name = "testserver-hcp-vault-sydney"
-#     AUTO_SHUTDOWN = "TRUE"
-#   }
-# }
+resource "aws_key_pair" "yulei" {
+  key_name   = "yulei"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIARWuJBNNiJQUkaubCiv5jX2jGX8cpM2/PRqXtMQVyyx yuleiliu@gmail.com"
+}
+
+resource "aws_instance" "testserver" {
+  ami                    = data.aws_ami.ubuntu.id
+  iam_instance_profile   = aws_iam_instance_profile.test_profile1.name
+  instance_type          = "t3.micro"
+  key_name               = "yulei"
+  private_ip             = "10.10.10.20"
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+  subnet_id              = aws_subnet.subnet.id
+  tags = {
+    Name = "testserver-hcp-vault-sydney"
+    AUTO_SHUTDOWN = "TRUE"
+  }
+}
