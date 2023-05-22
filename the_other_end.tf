@@ -30,7 +30,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "tag:application"
-    values = ["vault-1.8.2-oss"]
+    values = ["vault-1.12.0-oss"]
   }
 
   filter {
@@ -38,7 +38,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["711129375688"] # HashiCorp account
+  owners = ["384224972042"] # HashiCorp Yulei's account
 }
 
 resource "aws_internet_gateway" "gw" {
