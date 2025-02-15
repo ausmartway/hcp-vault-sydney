@@ -6,7 +6,7 @@ resource "hcp_vault_cluster" "vault-plus-demo" {
   hvn_id          = hcp_hvn.vault-demo-hvn.hvn_id
 }
 
-resource "hcp_vault_cluster_admin_token" "admin" {
+resource "hcp_vault_cluster_admin_token" "vault-plus-demo-admin" {
   cluster_id = "vault-cluster-demo"
   depends_on = [
     hcp_vault_cluster.vault-cluster-demo,
@@ -20,7 +20,7 @@ output "vault-plus-demo-url" {
 }
 
 output "vault-plus-demo-admin-token" {
-  value = hcp_vault_cluster_admin_token.admin.admin_token
+  value = hcp_vault_cluster_admin_token.vault-plus-demo-admin.admin_token
   description = "Admin token for Vault cluster"
   sensitive = false
 }
