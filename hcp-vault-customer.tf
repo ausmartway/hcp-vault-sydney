@@ -1,15 +1,15 @@
 // Create a Vault cluster in the same region and cloud provider as the HVN
 resource "hcp_vault_cluster" "vault-plus-demo" {
-  cluster_id      = "vault-cluster"
+  cluster_id      = "vault-plus-demo"
   tier = "Plus_small"
   public_endpoint = true
   hvn_id          = hcp_hvn.vault-demo-hvn.hvn_id
 }
 
 resource "hcp_vault_cluster_admin_token" "vault-plus-demo-admin" {
-  cluster_id = "vault-cluster-demo"
+  cluster_id = "vault-plus-demo"
   depends_on = [
-    hcp_vault_cluster.vault-cluster-demo,
+    hcp_vault_cluster.vault-plus-demo,
   ]
 }
 
